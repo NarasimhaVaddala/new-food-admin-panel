@@ -6,6 +6,7 @@ import Layout from "./Layout/Layout";
 import Dashboard from "./screens/Dashboard";
 import DeliveryBoysList from "./screens/DeliveryBoysList";
 import OrdersList from "./screens/OrdersList";
+import ContactsList from "./screens/ContactsList";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/delivery-boys" element={<DeliveryBoysList />} />
           <Route path="/orders" element={<OrdersList />} />
+          <Route path="/contact-list" element={<ContactsList />} />
         </Route>
       </Routes>
     </>

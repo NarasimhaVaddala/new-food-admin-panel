@@ -1,12 +1,12 @@
 // Sidebar.js
-import { X } from "lucide-react";
+import { X, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const links = [
-  // {
-  //   title: "Home",
-  //   path: "/",
-  // },
+  {
+    title: "Dashboard",
+    path: "/",
+  },
   {
     title: "Orders",
     path: "/orders",
@@ -15,11 +15,19 @@ const links = [
     title: "Delivery Boys",
     path: "/delivery-boys",
   },
+  {
+    title: "Contact List",
+    path: "/contact-list",
+  },
 ];
 
 // Sidebar Component
 export default function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
 
   return (
     <>
@@ -63,6 +71,14 @@ export default function Sidebar({ isOpen, onClose }) {
                 </Link>
               );
             })}
+
+            <button
+              onClick={handleLogout}
+              className="cursor-pointer flex items-center gap-4 py-2 px-3 rounded transition-colors bg-red-500 text-white font-medium w-full text-start"
+            >
+              <LogOut size={15} />
+              <span>Logout</span>
+            </button>
           </nav>
         </div>
       </div>

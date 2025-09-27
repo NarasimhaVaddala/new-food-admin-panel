@@ -7,7 +7,7 @@ export const useLoginHook = () => {
 
   async function onLogin(data) {
     try {
-      const resp = await API.post("/auth/login", data);
+      const resp = await API.post("/auth/admin-login", data);
       localStorage.setItem("token", resp.data.token);
       navigate("/orders");
     } catch (error) {
