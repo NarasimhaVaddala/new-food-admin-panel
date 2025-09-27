@@ -4,12 +4,13 @@ import { API } from "../../core/url";
 // Define the async thunk to fetch user profile
 export const fetchOrders = createAsyncThunk(
   "orders/getorders",
-  async ({ search, status, paymentMode }, { rejectWithValue }) => {
+  async ({ search, status, paymentMode, date }, { rejectWithValue }) => {
     try {
       const response = await API.get(`/admin/get-orders`, {
         params: {
           search,
           status,
+          date,
           paymentMode,
         },
       });

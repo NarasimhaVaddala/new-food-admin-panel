@@ -18,6 +18,8 @@ export default function OrdersList() {
     setstatus,
     paymentMode,
     setPaymentMode,
+    date,
+    setDate,
   } = useOrdersHook();
 
   return (
@@ -29,6 +31,8 @@ export default function OrdersList() {
         setstatus={setstatus}
         paymentMode={paymentMode}
         setPaymentMode={setPaymentMode}
+        date={date}
+        setDate={setDate}
       />
       <OrderTable data={orders} onclick={setSelectedOrder} />
       {selectedOrder && (

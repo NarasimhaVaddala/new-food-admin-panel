@@ -9,6 +9,8 @@ export default function Filters({
   setstatus,
   paymentMode,
   setPaymentMode,
+  date,
+  setDate,
 }) {
   return (
     <div className="space-y-1">
@@ -19,6 +21,12 @@ export default function Filters({
       />
 
       <div className="flex justify-end gap-2">
+        <CustomInputForState
+          value={date}
+          type="date"
+          placeholder={"Search Using customer name or mobile"}
+          setValue={(e) => setDate(e.target.value)}
+        />
         <CustomSelectForState
           value={status}
           setValue={setstatus}

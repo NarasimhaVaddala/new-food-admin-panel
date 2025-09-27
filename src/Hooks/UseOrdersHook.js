@@ -7,6 +7,7 @@ import { API } from "../../core/url";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDeliveryBoys } from "../../Redux/Slices/GetDeliveryBoys";
+import { useSocket } from "../../context/SocketContext";
 
 export const useOrdersHook = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,40 @@ export const useOrdersHook = () => {
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [paymentMode, setPaymentMode] = useState("");
+  const [date, setDate] = useState(new Date());
+
+  const { socket, isConnected } = useSocket();
+
+  const playNotificationSound = () => {
+    const audio = new Audio("/sounds/notification.mp3");
+    audio.volume = 0.5;
+    audio.play().catch((error) => console.warn("Failed to play sound:", error)); // Handle autoplay policy
+  };
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("new-order", (data) => {
+        dispatch(
+          fetchOrders({ search: debouncedSearch, status, paymentMode, date })
+        );
+        playNotificationSound();
+      });
+
+      socket.on("cancel-order", (data) => {
+        console.log(data);
+
+        dispatch(
+          fetchOrders({ search: debouncedSearch, status, paymentMode, date })
+        );
+        playNotificationSound();
+      });
+
+      return () => {
+        socket.off("new-order");
+        socket.off("cancel-order");
+      };
+    }
+  }, [socket]);
 
   // Debounce effect
   useEffect(() => {
@@ -33,8 +68,10 @@ export const useOrdersHook = () => {
 
   // Fetch orders when debouncedSearch or assigned changes
   useEffect(() => {
-    dispatch(fetchOrders({ search: debouncedSearch, status, paymentMode }));
-  }, [debouncedSearch, status, dispatch, paymentMode]);
+    dispatch(
+      fetchOrders({ search: debouncedSearch, status, paymentMode, date })
+    );
+  }, [debouncedSearch, status, dispatch, paymentMode, date]);
 
   // Fetch delivery boys once
   useEffect(() => {
@@ -52,6 +89,10 @@ export const useOrdersHook = () => {
       setSelectedPerson(null);
     } catch (error) {
       showAxiosError(error);
+    } finally {
+      dispatch(
+        fetchOrders({ search: debouncedSearch, status, paymentMode, date })
+      );
     }
   };
 
@@ -69,5 +110,7 @@ export const useOrdersHook = () => {
     setstatus,
     paymentMode,
     setPaymentMode,
+    date,
+    setDate,
   };
 };

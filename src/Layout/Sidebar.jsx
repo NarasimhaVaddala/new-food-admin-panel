@@ -3,10 +3,10 @@ import { X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const links = [
-  {
-    title: "Home",
-    path: "/",
-  },
+  // {
+  //   title: "Home",
+  //   path: "/",
+  // },
   {
     title: "Orders",
     path: "/orders",

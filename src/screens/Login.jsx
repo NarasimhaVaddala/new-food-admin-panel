@@ -4,11 +4,14 @@ import CustomInput from "../../components/CustomInput";
 import CustomButton from "../../components/CustomButton";
 import { LoginValidation } from "../../lib/validations";
 import { Link } from "react-router-dom";
+import { useLoginHook } from "../Hooks/LoginHook";
 
 export default function Login() {
+  const { onLogin } = useLoginHook();
+
   const { FormWrapper, errors, register } = FormComponent({
     defaultValues: undefined,
-    submitFn: () => {},
+    submitFn: onLogin,
     validations: LoginValidation,
   });
 
@@ -43,7 +46,7 @@ export default function Login() {
         </FormWrapper>
 
         {/* Sign Up Link */}
-        <p className="mt-6 text-center text-sm text-gray-600">
+        {/* <p className="mt-6 text-center text-sm text-gray-600">
           Don't have an account?{" "}
           <Link
             to="/signup"
@@ -51,7 +54,7 @@ export default function Login() {
           >
             Sign Up
           </Link>
-        </p>
+        </p> */}
       </div>
     </div>
   );
